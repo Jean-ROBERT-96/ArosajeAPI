@@ -1,0 +1,12 @@
+/.vs/
+/ArosajeAPI/appsettings.json
+/ArosajeAPI/bin/
+/ArosajeAPI/obj/
+/DataContext/bin/
+/DataContext/obj/
+/Entities/bin/
+/Entities/obj/
+/Services/bin/
+/Services/obj/
+/UnitTest/bin/
+/UnitTest/obj/
