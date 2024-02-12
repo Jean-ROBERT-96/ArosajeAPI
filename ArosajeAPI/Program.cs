@@ -1,7 +1,8 @@
-
 using DataContext;
 using DataContext.Repository;
+using Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -28,10 +29,17 @@ namespace ArosajeAPI
             });
             builder.Services.AddDbContext<DBContext>(options =>
             {
-
+                string connect = builder.Configuration["ConnectionStrings:DBConnection"];
+                options.UseMySql(connect, ServerVersion.AutoDetect(connect));
             });
             builder.Services.AddControllers();
             builder.Services.AddTransient<IJwtConnection, JwtLoginRepository>();
+            builder.Services.AddTransient<IRepository<Annonce>, AnnonceRepository>();
+            builder.Services.AddTransient<IRepository<Conversation>, ConversationRepository>();
+            builder.Services.AddTransient<IRepository<Entretien>, EntretienRepository>();
+            builder.Services.AddTransient<IRepository<Message>, MessageRepository>();
+            builder.Services.AddTransient<IRepository<Suivi>, SuiviRepository>();
+            builder.Services.AddTransient<IRepository<Utilisateur>, UtilisateurRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
