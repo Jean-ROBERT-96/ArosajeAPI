@@ -1,5 +1,6 @@
 ﻿using DataContext;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,25 +17,25 @@ namespace ArosajeAPI.Controllers
             _repo = repo;
         }
 
-        [HttpGet]
+        [HttpGet("{id}"), AllowAnonymous]
         public async Task<ActionResult<Annonce>> Get(Int64 id)
         {
             return Ok(await _repo.Get(id));
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public async Task<ActionResult<List<Annonce>>> GetAll()
         {
             return Ok(await _repo.GetAll());
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<ActionResult<Annonce>> Post(Annonce entity)
         {
             return CreatedAtAction("Post", await _repo.Post(entity));
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public async Task<ActionResult<Annonce>> Put(Annonce entity)
         {
             var result = await _repo.Put(entity);
@@ -44,7 +45,7 @@ namespace ArosajeAPI.Controllers
             return Ok(entity);
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize]
         public async Task<ActionResult<Annonce>> Delete(Annonce entity)
         {
             var result = await _repo.Delete(entity.Id);

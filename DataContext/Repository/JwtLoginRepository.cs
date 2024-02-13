@@ -24,7 +24,7 @@ namespace DataContext.Repository
                     pass += $"{b:X2}";
             }
 
-            var dbUser = await _context.JwtUsers.FirstOrDefaultAsync(x => x.Name.Equals(user.Name) && x.Password.Equals(pass));
+            var dbUser = await _context.JwtUsers.FirstOrDefaultAsync(x => x.Name.Equals(user.Name) && x.Password.Equals(user.Password));
 
             if (dbUser != null)
                 return dbUser;
