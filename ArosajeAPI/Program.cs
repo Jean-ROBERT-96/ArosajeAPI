@@ -29,8 +29,8 @@ namespace ArosajeAPI
             });
             builder.Services.AddDbContext<DBContext>(options =>
             {
-                string connect = builder.Configuration["ConnectionStrings:DBConnection"];
-                options.UseMySql(connect, ServerVersion.AutoDetect(connect));
+                string connect = builder.Configuration.GetConnectionString("DBConnection");
+                options.UseMySQL(connect);
             });
             builder.Services.AddControllers();
             builder.Services.AddTransient<IJwtConnection, JwtLoginRepository>();
