@@ -29,4 +29,10 @@
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataContext\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
