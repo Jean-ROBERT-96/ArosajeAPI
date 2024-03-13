@@ -14,7 +14,7 @@ namespace DataContext.Repository
             _context = context;
         }
 
-        public async Task<JwtUsers?> Login(JwtUsers user)
+        public async Task<Utilisateur?> Login(Utilisateur user)
         {
             string pass = string.Empty;
             using (var hash = SHA256.Create())
@@ -24,12 +24,19 @@ namespace DataContext.Repository
                     pass += $"{b:X2}";
             }
 
-            var dbUser = await _context.JwtUsers.FirstOrDefaultAsync(x => x.Name.Equals(user.Name) && x.Password.Equals(user.Password));
+            var dbUser = await _context.Utilisateurs.FirstOrDefaultAsync(x => x.Mail.Equals(user.Mail) && x.Password.Equals(user.Password));
 
             if (dbUser != null)
                 return dbUser;
             else
                 return null;
+        }
+
+        public async Task<Utilisateur?> Register(Utilisateur user)
+        {
+            _context.Utilisateurs.Add(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
     }
 }

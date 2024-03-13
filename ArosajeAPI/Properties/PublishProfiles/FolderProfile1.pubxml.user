@@ -3,4 +3,9 @@
 https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\jean_\Documents\Bureau\EPSI arosaje\publishWindows</_PublishTargetUrl>
+    <History>True|2024-02-23T12:58:33.2577835Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
 </Project>

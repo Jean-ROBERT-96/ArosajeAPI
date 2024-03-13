@@ -4,19 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\jean_\Documents\Bureau\EPSI arosaje\publish</_PublishTargetUrl>
-    <History>True|2024-02-19T15:51:46.2635037Z;False|2024-02-19T16:51:02.8378372+01:00;True|2024-02-19T16:29:06.1878341+01:00;True|2024-02-19T16:24:51.5116448+01:00;True|2024-02-19T15:55:20.4604471+01:00;True|2024-02-19T15:50:37.6727529+01:00;True|2024-02-19T15:43:22.8208232+01:00;True|2024-02-19T15:34:33.3003556+01:00;True|2024-02-19T15:27:46.2397597+01:00;True|2024-02-19T14:49:27.4751828+01:00;</History>
+    <_PublishTargetUrl>C:\Users\jean_\Documents\Bureau\EPSI arosaje\Docker\publish</_PublishTargetUrl>
+    <History>True|2024-02-22T14:00:14.0570364Z;</History>
     <LastFailureDetails />
   </PropertyGroup>
-  <ItemGroup>
-    <DestinationConnectionStrings Include="DBConnection">
-      <Value>Server=localhost%3bDatabase=arosaje%3bUid=root%3bPwd=%3b</Value>
-    </DestinationConnectionStrings>
-  </ItemGroup>
-  <ItemGroup>
-    <EFMigrations Include="DataContext.DBContext">
-      <Value>Server=localhost%3bDatabase=arosaje%3bUid=root%3bPwd=%3b</Value>
-    </EFMigrations>
-  </ItemGroup>
 </Project>

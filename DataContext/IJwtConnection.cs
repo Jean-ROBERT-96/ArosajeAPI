@@ -9,6 +9,7 @@ namespace DataContext
 {
     public interface IJwtConnection
     {
-        Task<JwtUsers?> Login(JwtUsers user);
+        Task<Utilisateur?> Login(Utilisateur user);
+        Task<Utilisateur?> Register(Utilisateur user);
     }
 }

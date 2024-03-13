@@ -42,6 +42,7 @@ namespace DataContext.Repository
 
         public async Task<Annonce?> Put(Annonce entity)
         {
+            var tt = new Annonce();
             var result = await _context.Annonces.FirstOrDefaultAsync(x => x.Id == entity.Id);
             if (result == null)
                 return null;

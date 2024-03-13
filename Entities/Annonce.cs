@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities
 {
+    public enum EnumEtat
+    {
+        Visible = 0,
+        NoVisible = 1,
+        Taken = 2
+    }
+
     [Table("annonce")]
     public class Annonce
     {
@@ -21,11 +28,8 @@ namespace Entities
         [Column("date_creation")]
         public DateTime DateCreation { get; set; }
 
-        [Column("est_visible")]
-        public Boolean EstVisible { get; set; }
-
-        [Column("est_suspendu")]
-        public Boolean EstSuspendu { get; set; }
+        [Column("etat")]
+        public EnumEtat Etat { get; set; }
 
         [Column("utilisateur_id")]
         public Int64 UtilisateurId { get; set; }
