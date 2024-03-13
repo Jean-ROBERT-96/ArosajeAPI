@@ -35,7 +35,7 @@ namespace ArosajeAPI.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [AllowAnonymous, HttpPost]
+        [AllowAnonymous, HttpPost("Login")]
         public async Task<ActionResult> Login(Utilisateur user)
         {
             ActionResult response = Unauthorized();
@@ -49,7 +49,7 @@ namespace ArosajeAPI.Controllers
             return response;
         }
 
-        [AllowAnonymous, HttpPost]
+        [AllowAnonymous, HttpPost("Register")]
         public async Task<ActionResult> Register(Utilisateur user)
         {
             await _context.Register(user);
