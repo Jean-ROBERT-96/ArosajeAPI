@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataContext.Repository
@@ -26,6 +27,29 @@ namespace DataContext.Repository
         public async Task<Annonce?> Get(long id)
         {
             return await _context.Annonces.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<Annonce>> Get(IFilter filter)
+        {
+            var annonceFilter = (AnnonceFilter)filter;
+            var query = _context.Annonces.AsQueryable();
+
+            if (annonceFilter.UserId.HasValue)
+                query = query.Where(f => f.UtilisateurId == annonceFilter.UserId.Value);
+
+            if (annonceFilter.Etat.HasValue)
+                query = query.Where(f => f.Etat == annonceFilter.Etat.Value);
+
+            if (!string.IsNullOrWhiteSpace(annonceFilter.Title))
+                query = query.Where(f => f.Title.Contains(annonceFilter.Title, StringComparison.OrdinalIgnoreCase));
+
+            if (annonceFilter.PosteDe != null)
+                query = query.Where(f => f.DateCreation >= annonceFilter.PosteDe);
+
+            if (annonceFilter.PosteA != null)
+                query = query.Where(f => f.DateCreation <= annonceFilter.PosteA);
+
+            return await query.ToListAsync();
         }
 
         public async Task<List<Annonce>> GetAll()

@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataContext.Repository
@@ -26,6 +27,11 @@ namespace DataContext.Repository
         public async Task<Entretien?> Get(long id)
         {
             return await _context.Entretiens.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public Task<List<Entretien>> Get(IFilter filter)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<List<Entretien>> GetAll()

@@ -1,6 +1,6 @@
 ﻿namespace Entities.Filters
 {
-    public class AnnonceFilter
+    public class AnnonceFilter : IFilter
     {
         public DateTime? PosteDe { get; set; }
         public DateTime? PosteA { get; set; }
