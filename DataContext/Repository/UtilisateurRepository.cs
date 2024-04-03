@@ -29,9 +29,36 @@ namespace DataContext.Repository
             return await _context.Utilisateurs.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<Utilisateur>> Get(IFilter filter)
+        public async Task<List<Utilisateur>> Get(IFilter filter)
         {
-            throw new NotImplementedException();
+            var utilisateurFilter = (UtilisateurFilter)filter;
+            var query = _context.Utilisateurs.AsQueryable();
+
+            if (utilisateurFilter.UserId.HasValue)
+                query = query.Where(f => f.Id == utilisateurFilter.UserId.Value);
+
+            if (utilisateurFilter.EstBotaniste.HasValue)
+                query = query.Where(f => f.EstBotaniste == utilisateurFilter.EstBotaniste.Value);
+
+            if (utilisateurFilter.EstModerateur.HasValue)
+                query = query.Where(f => f.EstModerateur == utilisateurFilter.EstModerateur.Value);
+
+            if (!string.IsNullOrWhiteSpace(utilisateurFilter.Nom))
+                query = query.Where(f => f.Nom.Contains(utilisateurFilter.Nom, StringComparison.OrdinalIgnoreCase));
+
+            if (!string.IsNullOrWhiteSpace(utilisateurFilter.Prenom))
+                query = query.Where(f => f.Prenom.Contains(utilisateurFilter.Prenom, StringComparison.OrdinalIgnoreCase));
+
+            if (!string.IsNullOrWhiteSpace(utilisateurFilter.Mail))
+                query = query.Where(f => f.Mail.Contains(utilisateurFilter.Mail, StringComparison.OrdinalIgnoreCase));
+
+            if (utilisateurFilter.CreeDe.HasValue)
+                query = query.Where(f => f.DateCreation >= utilisateurFilter.CreeDe);
+
+            if (utilisateurFilter.CreeA.HasValue)
+                query = query.Where(f => f.DateCreation <= utilisateurFilter.CreeA);
+
+            return await query.ToListAsync();
         }
 
         public async Task<List<Utilisateur>> GetAll()

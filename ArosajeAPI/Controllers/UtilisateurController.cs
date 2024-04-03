@@ -1,5 +1,6 @@
 ﻿using DataContext;
 using Entities;
+using Entities.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,12 @@ namespace ArosajeAPI.Controllers
         public async Task<ActionResult<Utilisateur>> Get(Int64 id)
         {
             return Ok(await _repo.Get(id));
+        }
+
+        [HttpGet("filter"), Authorize]
+        public async Task<ActionResult<List<Utilisateur>>> Get([FromQuery] UtilisateurFilter filters)
+        {
+            return Ok(await _repo.Get(filters));
         }
 
         [HttpGet, Authorize]

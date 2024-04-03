@@ -1,3 +1,4 @@
+using ArosajeAPI.Middlewares;
 using DataContext;
 using DataContext.Repository;
 using Entities;
@@ -63,11 +64,21 @@ namespace ArosajeAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();
+
+            app.UseMiddleware<JwtExpiration>();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-
-            app.MapControllers();
+            //app.MapControllers();
+            app.UseEndpoints(e =>
+            {
+                e.MapControllers();
+                //e.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run();
         }

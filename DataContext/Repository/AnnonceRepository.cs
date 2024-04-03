@@ -43,10 +43,10 @@ namespace DataContext.Repository
             if (!string.IsNullOrWhiteSpace(annonceFilter.Title))
                 query = query.Where(f => f.Title.Contains(annonceFilter.Title, StringComparison.OrdinalIgnoreCase));
 
-            if (annonceFilter.PosteDe != null)
+            if (annonceFilter.PosteDe.HasValue)
                 query = query.Where(f => f.DateCreation >= annonceFilter.PosteDe);
 
-            if (annonceFilter.PosteA != null)
+            if (annonceFilter.PosteA.HasValue)
                 query = query.Where(f => f.DateCreation <= annonceFilter.PosteA);
 
             return await query.ToListAsync();
