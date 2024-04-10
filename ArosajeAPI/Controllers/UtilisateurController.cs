@@ -36,7 +36,7 @@ namespace ArosajeAPI.Controllers
             return Ok(await _repo.GetAll());
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "moderateur")]
         public async Task<ActionResult<Utilisateur>> Post(Utilisateur entity)
         {
             return CreatedAtAction("Post", await _repo.Post(entity));
@@ -52,7 +52,7 @@ namespace ArosajeAPI.Controllers
             return Ok(entity);
         }
 
-        [HttpDelete, Authorize]
+        [HttpDelete, Authorize(Roles = "moderateur")]
         public async Task<ActionResult<Utilisateur>> Delete(Utilisateur entity)
         {
             var result = await _repo.Delete(entity.Id);

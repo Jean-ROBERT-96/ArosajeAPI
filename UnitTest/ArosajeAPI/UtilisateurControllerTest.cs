@@ -3,8 +3,7 @@ using DataContext;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
+
 namespace UnitTest.ArosajeAPI
 {
     public class UtilisateurControllerTest

@@ -71,13 +71,9 @@ namespace ArosajeAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.MapControllers();
             app.UseEndpoints(e =>
             {
                 e.MapControllers();
-                //e.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
             app.Run();

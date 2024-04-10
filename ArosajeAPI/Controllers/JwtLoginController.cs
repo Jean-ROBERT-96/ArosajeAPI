@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace ArosajeAPI.Controllers
@@ -21,14 +22,23 @@ namespace ArosajeAPI.Controllers
             _context = context;
         }
 
-        private string GenerateToken()
+        private string GenerateToken(Utilisateur user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>();
+
+            if (user.EstBotaniste)
+                claims.Add(new(ClaimTypes.Role, "botaniste"));
+            if (user.EstModerateur)
+                claims.Add(new(ClaimTypes.Role, "moderateur"));
+
             var token = new JwtSecurityToken(
                     issuer: _config["Jwt:Issuer"],
                     audience: _config["Jwt:Audience"],
                     expires: DateTime.Now.AddMinutes(15),
+                    claims: claims,
                     signingCredentials: credentials
                 );
 
@@ -42,7 +52,7 @@ namespace ArosajeAPI.Controllers
             var okUser = await _context.Login(user);
             if(okUser != null)
             {
-                var token = GenerateToken();
+                var token = GenerateToken(okUser);
                 response = Ok(new { token = token });
             }
 
@@ -53,7 +63,7 @@ namespace ArosajeAPI.Controllers
         public async Task<ActionResult> Register(Utilisateur user)
         {
             await _context.Register(user);
-            var token = GenerateToken();
+            var token = GenerateToken(user);
             return Ok(new { token = token });
         }
     }
