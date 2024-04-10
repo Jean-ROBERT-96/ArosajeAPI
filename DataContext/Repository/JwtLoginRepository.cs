@@ -16,14 +16,6 @@ namespace DataContext.Repository
 
         public async Task<Utilisateur?> Login(Utilisateur user)
         {
-            string pass = string.Empty;
-            using (var hash = SHA256.Create())
-            {
-                var bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
-                foreach (var b in bytes)
-                    pass += $"{b:X2}";
-            }
-
             var dbUser = await _context.Utilisateurs.FirstOrDefaultAsync(x => x.Mail.Equals(user.Mail) && x.Password.Equals(user.Password));
 
             if (dbUser != null)
