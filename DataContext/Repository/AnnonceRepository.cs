@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Filters;
 using Microsoft.EntityFrameworkCore;
+using Services;
 
 namespace DataContext.Repository
 {
@@ -21,11 +22,16 @@ namespace DataContext.Repository
 
             _context.Annonces.Remove(result);
             await _context.SaveChangesAsync();
+            PictureManager.DeletePicture(result.Image);
             return result;
         }
 
         public async Task<Annonce?> Get(long id)
         {
+            var result = await _context.Annonces.FirstOrDefaultAsync(x => x.Id == id);
+            if (result != null)
+                result.Image = PictureManager.GetPicture(result.Image);
+
             return await _context.Annonces.FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -49,16 +55,25 @@ namespace DataContext.Repository
             if (annonceFilter.PosteA.HasValue)
                 query = query.Where(f => f.DateCreation <= annonceFilter.PosteA);
 
-            return await query.ToListAsync();
+            var result = await query.ToListAsync();
+            for(int i = 0; i < result.Count; i++)
+                result[i].Image = PictureManager.GetPicture(result[i].Image);
+
+            return result;
         }
 
         public async Task<List<Annonce>> GetAll()
         {
-            return await _context.Annonces.ToListAsync();
+            var result = await _context.Annonces.ToListAsync();
+            for (int i = 0; i < result.Count; i++)
+                result[i].Image = PictureManager.GetPicture(result[i].Image);
+
+            return result;
         }
 
         public async Task<Annonce?> Post(Annonce entity)
         {
+            entity.Image = PictureManager.SavePicture(entity.Image, $"{entity.Id}_{DateTime.UtcNow:dd-MM-yyyy}");
             _context.Annonces.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -66,10 +81,12 @@ namespace DataContext.Repository
 
         public async Task<Annonce?> Put(Annonce entity)
         {
-            var tt = new Annonce();
             var result = await _context.Annonces.FirstOrDefaultAsync(x => x.Id == entity.Id);
             if (result == null)
                 return null;
+
+            PictureManager.EditPicture(entity.Image, result.Image);
+            entity.Image = result.Image;
 
             _context.Attach(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
