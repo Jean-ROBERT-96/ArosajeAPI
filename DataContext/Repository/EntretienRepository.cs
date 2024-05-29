@@ -51,7 +51,7 @@ namespace DataContext.Repository
 
         public async Task<Entretien?> Post(Entretien entity)
         {
-            entity.Image = PictureManager.SavePicture(entity.Image, $"{entity.Id}_{DateTime.UtcNow:dd-MM-yyyy}");
+            entity.Image = PictureManager.SavePicture(entity.Image, $"{entity.Id}_{Guid.NewGuid()}");
             _context.Entretiens.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
