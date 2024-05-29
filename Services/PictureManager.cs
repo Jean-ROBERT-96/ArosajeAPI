@@ -2,14 +2,14 @@
 {
     public static class PictureManager
     {
-        private static readonly string _filepath = Path.Combine(Environment.CurrentDirectory, "Pictures");
+        public static string Filepath = string.Empty;
 
         public static string GetPicture(string file)
         {
             try
             {
-                if (!Path.Exists(_filepath))
-                    Directory.CreateDirectory(_filepath);
+                if (!Path.Exists(Filepath))
+                    Directory.CreateDirectory(Filepath);
 
                 var imgArray = File.ReadAllBytes(file);
                 return Convert.ToBase64String(imgArray);
@@ -24,10 +24,10 @@
         {
             try
             {
-                if (!Path.Exists(_filepath))
-                    Directory.CreateDirectory(_filepath);
+                if (!Path.Exists(Filepath))
+                    Directory.CreateDirectory(Filepath);
 
-                string fullname = Path.Combine(_filepath, $"{name}.jpg");
+                string fullname = Path.Combine(Filepath, $"{name}.jpg");
                 File.WriteAllBytes(fullname, Convert.FromBase64String(img64));
                 return fullname;
             }
@@ -41,12 +41,12 @@
         {
             try
             {
-                if (!Path.Exists(_filepath))
-                    Directory.CreateDirectory(_filepath);
+                if (!Path.Exists(Filepath))
+                    Directory.CreateDirectory(Filepath);
                 File.Delete(oldImgPath);
 
                 string fullname = $"{Path.GetFileName(oldImgPath)}.jpg";
-                File.WriteAllBytes(Path.Combine(_filepath, fullname), Convert.FromBase64String(newImg));
+                File.WriteAllBytes(Path.Combine(Filepath, fullname), Convert.FromBase64String(newImg));
 
                 return true;
             }
@@ -61,8 +61,8 @@
         {
             try
             {
-                if (!Path.Exists(_filepath))
-                    Directory.CreateDirectory(_filepath);
+                if (!Path.Exists(Filepath))
+                    Directory.CreateDirectory(Filepath);
                 File.Delete(imgPath);
                 return true;
             }

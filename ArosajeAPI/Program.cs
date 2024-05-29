@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Services;
 using System.Text;
 
 namespace ArosajeAPI
@@ -15,6 +16,10 @@ namespace ArosajeAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var picturesPath = builder.Configuration?["PicturesPath"];
+            if (!string.IsNullOrWhiteSpace(picturesPath))
+                PictureManager.Filepath = picturesPath;
 
             // Add services to the container.
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
