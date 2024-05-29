@@ -32,7 +32,7 @@ namespace DataContext.Repository
             if (result != null)
                 result.Image = PictureManager.GetPicture(result.Image);
 
-            return await _context.Annonces.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
         }
 
         public async Task<List<Annonce>> Get(IFilter filter)

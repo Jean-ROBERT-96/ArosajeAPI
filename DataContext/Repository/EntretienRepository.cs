@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Filters;
 using Microsoft.EntityFrameworkCore;
+using Services;
 
 namespace DataContext.Repository
 {
@@ -21,12 +22,17 @@ namespace DataContext.Repository
 
             _context.Entretiens.Remove(result);
             await _context.SaveChangesAsync();
+            PictureManager.DeletePicture(result.Image);
             return result;
         }
 
         public async Task<Entretien?> Get(long id)
         {
-            return await _context.Entretiens.FirstOrDefaultAsync(x => x.Id == id);
+            var result = await _context.Entretiens.FirstOrDefaultAsync(x => x.Id == id);
+            if (result != null)
+                result.Image = PictureManager.GetPicture(result.Image);
+
+            return result;
         }
 
         public Task<List<Entretien>> Get(IFilter filter)
@@ -36,11 +42,16 @@ namespace DataContext.Repository
 
         public async Task<List<Entretien>> GetAll()
         {
-            return await _context.Entretiens.ToListAsync();
+            var result = await _context.Entretiens.ToListAsync();
+            for (int i = 0; i < result.Count; i++)
+                result[i].Image = PictureManager.GetPicture(result[i].Image);
+
+            return result;
         }
 
         public async Task<Entretien?> Post(Entretien entity)
         {
+            entity.Image = PictureManager.SavePicture(entity.Image, $"{entity.Id}_{DateTime.UtcNow:dd-MM-yyyy}");
             _context.Entretiens.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -51,6 +62,9 @@ namespace DataContext.Repository
             var result = await _context.Entretiens.FirstOrDefaultAsync(x => x.Id == entity.Id);
             if (result == null)
                 return null;
+
+            PictureManager.EditPicture(entity.Image, result.Image);
+            entity.Image = result.Image;
 
             _context.Attach(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
