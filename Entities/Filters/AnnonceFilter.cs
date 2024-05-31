@@ -7,5 +7,6 @@
         public string? Title { get; set; }
         public long? UserId { get; set; }
         public EnumEtat? Etat { get; set; }
+        public Int32? Delai { get; set; }
     }
 }

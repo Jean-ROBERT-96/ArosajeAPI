@@ -28,6 +28,9 @@ namespace Entities
         [Column("date_creation")]
         public DateTime DateCreation { get; set; }
 
+        [Column("delai")]
+        public Int32 Delai { get; set; }
+
         [Column("etat")]
         public EnumEtat Etat { get; set; }
 

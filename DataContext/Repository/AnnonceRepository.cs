@@ -55,6 +55,9 @@ namespace DataContext.Repository
             if (annonceFilter.PosteA.HasValue)
                 query = query.Where(f => f.DateCreation <= annonceFilter.PosteA);
 
+            if (annonceFilter.Delai.HasValue)
+                query = query.Where(f => f.Delai <= annonceFilter.Delai.Value);
+
             var result = await query.ToListAsync();
             for(int i = 0; i < result.Count; i++)
                 result[i].Image = PictureManager.GetPicture(result[i].Image);
